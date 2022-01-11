@@ -28,7 +28,7 @@ function App() {
           </Routes>
         </main>
 
-        <footer className='footer p-10 bg-neutral text-neutral-content footer-center'>Copyright 2022</footer>
+        <footer className='footer p-10 bg-neutral text-neutral-content footer-center'>Copyright &copy; {new Date().getFullYear()}</footer>
       </div>
       <ToastContainer 
         position="bottom-left"

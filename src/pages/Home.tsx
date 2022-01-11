@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios"
 import User from "../components/User"
 import { toast } from 'react-toastify'
@@ -58,10 +58,6 @@ export default function Home() {
     const handleSingle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSingle(e.target.checked);
     }
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     return (
         <div className="px-5 h-full flex flex-col items-center justify-around overflow-y-hidden
@@ -137,7 +133,7 @@ export default function Home() {
             <div className="grid grid-cols-1 w-full h-full px-10 
                 2xl:grid-cols-4
                 xl:grid-cols-3 xl:w-5/6
-                lg:overflow-y-scroll lg:scrolling-auto
+                lg:overflow-y-auto lg:scrolling-auto
                 md:grid-cols-2 
             ">
                 {data.length > 0 && data.map((user, index) => (
