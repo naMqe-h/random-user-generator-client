@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import User from "../components/User"
+import { toast } from 'react-toastify'
 
 export type dataObject = {
     firstName: string,
@@ -40,7 +41,14 @@ export default function Home() {
         setData([])
         e.preventDefault()
         const response = await axios.get(single ? url.single : url.normal)
-        response.data?.error ? setError(response.data.error) : setData(response.data)
+        if(response.data?.error) {
+            setError(response.data.error)
+            toast.error(response.data.error, {
+                className: 'w-max'
+            })
+        } else {
+            setData(response.data)
+        }
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +83,8 @@ export default function Home() {
                     <span>Single Year</span>
                     <input 
                         type="checkbox" 
-                        className="checkbox checkbox-primary"    
+                        className="checkbox checkbox-primary"
+                        checked={single}
                         onChange={handleSingle}
                     />
                 </label>

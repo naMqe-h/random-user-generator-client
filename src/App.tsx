@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 //components
 import Navbar from './components/Navbar';
@@ -9,6 +11,7 @@ import Docs from './pages/Docs';
 import Home from './pages/Home';
 
 function App() {
+
   return (
     <BrowserRouter>
       <div className='flex flex-col justify-between h-screen'>
@@ -24,6 +27,15 @@ function App() {
 
         <footer className='footer p-10 bg-neutral text-neutral-content footer-center'>Copyright 2022</footer>
       </div>
+      <ToastContainer 
+        position="bottom-left"
+        theme='dark'
+        autoClose={8000}
+        hideProgressBar={false}
+        closeOnClick={true}
+        pauseOnHover={true}
+        draggable={true}
+      />
     </BrowserRouter>
   );
 }
