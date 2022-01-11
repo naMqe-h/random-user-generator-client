@@ -5,7 +5,7 @@ export default function Navbar() {
         <div className="navbar mb-12 bg-neutral shadow-md">
             <div className="container mx-auto">
                 <div className="flex-none">
-                    <a href="" className="text-3xl text-primary font-bold">Random User Generator</a>
+                    <Link to="/" className="text-3xl text-primary font-bold">Random User Generator</Link>
                 </div>
                 <div className="flex-1">
                     <div className="flex justify-end">

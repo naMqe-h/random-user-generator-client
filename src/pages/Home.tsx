@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import axios from "axios"
 import User from "../components/User"
 
@@ -11,24 +11,35 @@ export type dataObject = {
 
 type paramsObject = {
     count: number,
-    year: number
+    year: number,
+    since: number,
+    until: number
 }
 
 export default function Home() {
     const baseUrl = process.env.REACT_APP_API_URL
     const [data, setData] = useState<dataObject[]>([])
     const [error, setError] = useState(null)
+    const [single, setSingle] = useState<boolean>(false)
     const [params, setParams] = useState<paramsObject>({
         count: 3,
-        year: 2003
+        year: 2003,
+        since: 1970,
+        until: 2010
     })
-    const {count, year} = params
+    const {count, year, since, until} = params
     
-    const url = `${baseUrl}/api/users/single-year?count=${count}&year=${year}`
+    const url = {
+        normal: `${baseUrl}/api/users?count=${count}&since=${since}&until=${until}`,
+        single: `${baseUrl}/api/users/single-year?count=${count}&year=${year}`
+    }
+    
     
     const getUsers = async (e : React.MouseEvent<HTMLButtonElement>) => {
+        setError(null)
+        setData([])
         e.preventDefault()
-        const response = await axios.get(url)
+        const response = await axios.get(single ? url.single : url.normal)
         response.data?.error ? setError(response.data.error) : setData(response.data)
     }
 
@@ -37,6 +48,10 @@ export default function Home() {
             ...prevState,
             [e.target.id]: e.target.value
         }))
+    }
+    
+    const handleSingle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSingle(e.target.checked);
     }
 
     useEffect(() => {
@@ -57,15 +72,51 @@ export default function Home() {
                     />
                 </label>
                 <label className="label">
-                    <span>Year of birth:</span>
+                    <span>Single Year</span>
                     <input 
-                        type="number" 
-                        className="input input-bordered input-primary ml-3"
-                        id="year"
-                        value={year}
-                        onChange={handleChange}
+                        type="checkbox" 
+                        className="checkbox checkbox-primary"    
+                        onChange={handleSingle}
                     />
                 </label>
+                {single ? (
+                    <label className="label">
+                        <span>Year of birth:</span>
+                        <input 
+                            type="number" 
+                            className="input input-bordered input-primary ml-3"
+                            id="year"
+                            value={year}
+                            onChange={handleChange}
+                        />
+                    </label>
+                ) : (
+                    <div>
+                        <label className="label">
+                            <span>Since year:</span>
+                            <input 
+                                type="number" 
+                                className="input input-bordered input-primary ml-3"
+                                id="since"
+                                value={since}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label className="label">
+                            <span>Until year:</span>
+                            <input 
+                                type="number" 
+                                className="input input-bordered input-primary ml-3"
+                                id="until"
+                                value={until}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
+                )}
+
+                
+                
                 <button onClick={(e) => getUsers(e)} className="btn btn-primary">Get</button>
             </form>
 
