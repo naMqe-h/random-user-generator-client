@@ -30,8 +30,8 @@ export default function Home() {
     const {count, year, since, until} = params
     
     const url = {
-        normal: `${baseUrl}/api/users?count=${count}&since=${since}&until=${until}`,
-        single: `${baseUrl}/api/users/single-year?count=${count}&year=${year}`
+        normal: `${baseUrl}api/users?count=${count}&since=${since}&until=${until}`,
+        single: `${baseUrl}api/users/single-year?count=${count}&year=${year}`
     }
     
     
