@@ -21,6 +21,7 @@ export default function Home() {
     const baseUrl = process.env.REACT_APP_API_URL
     const [data, setData] = useState<dataObject[]>([])
     const [single, setSingle] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const [params, setParams] = useState<paramsObject>({
         count: 3,
         year: 2003,
@@ -36,15 +37,18 @@ export default function Home() {
     
     
     const getUsers = async (e : React.MouseEvent<HTMLButtonElement>) => {
-        setData([])
         e.preventDefault()
+        setData([])
+        setLoading(true)
         const response = await axios.get(single ? url.single : url.normal)
         if(response.data?.error) {
             toast.error(response.data.error, {
                 className: 'w-max'
             })
+            setLoading(false)
         } else {
             setData(response.data)
+            setLoading(false)
         }
     }
 
@@ -127,7 +131,9 @@ export default function Home() {
 
                 
                 
-                <button onClick={(e) => getUsers(e)} className="btn btn-primary">Get</button>
+                <button onClick={(e) => getUsers(e)} className={`btn btn-primary ${loading ? 'loading' : ""} `}>
+                    {loading ? 'Loading' : 'Get'}
+                </button>
             </form>
 
             <div className="grid grid-cols-1 w-full h-full px-10 
