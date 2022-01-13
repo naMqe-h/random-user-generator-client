@@ -22,11 +22,16 @@ export default function Home() {
     const {data, loading, getUsers} = useFetch(url)
     const {count, year, since, until} = params
 
+    const endPoints = {
+        singleYear: `${baseUrl}api/users/single-year?count=${count}&year=${year}`,
+        differentYears: `${baseUrl}api/users?count=${count}&since=${since}&until=${until}`
+    }
+
     useEffect(() => {
         single ? (
-            setUrl(`${baseUrl}api/users/single-year?count=${count}&year=${year}`)
+            setUrl(endPoints.singleYear)
         ) : (
-            setUrl(`${baseUrl}api/users?count=${count}&since=${since}&until=${until}`)
+            setUrl(endPoints.differentYears)
         )
     }, [single, count, year, since, until, baseUrl])
 
