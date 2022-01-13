@@ -1,14 +1,6 @@
-import { useState } from "react"
-import axios from "axios"
+import { useEffect, useState } from "react"
 import User from "../components/User"
-import { toast } from 'react-toastify'
-
-export type dataObject = {
-    firstName: string,
-    lastName: string,
-    pesel: string,
-    birthday: string,
-}
+import useFetch from "../hooks/useFetch"
 
 type paramsObject = {
     count: number,
@@ -19,38 +11,24 @@ type paramsObject = {
 
 export default function Home() {
     const baseUrl = process.env.REACT_APP_API_URL
-    const [data, setData] = useState<dataObject[]>([])
     const [single, setSingle] = useState<boolean>(false)
-    const [loading, setLoading] = useState<boolean>(false)
+    const [url, setUrl] = useState<string>('')
     const [params, setParams] = useState<paramsObject>({
         count: 3,
         year: 2003,
         since: 1970,
         until: 2010
     })
+    const {data, loading, getUsers} = useFetch(url)
     const {count, year, since, until} = params
-    
-    const url = {
-        normal: `${baseUrl}api/users?count=${count}&since=${since}&until=${until}`,
-        single: `${baseUrl}api/users/single-year?count=${count}&year=${year}`
-    }
-    
-    
-    const getUsers = async (e : React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        setData([])
-        setLoading(true)
-        const response = await axios.get(single ? url.single : url.normal)
-        if(response.data?.error) {
-            toast.error(response.data.error, {
-                className: 'w-max'
-            })
-            setLoading(false)
-        } else {
-            setData(response.data)
-            setLoading(false)
-        }
-    }
+
+    useEffect(() => {
+        single ? (
+            setUrl(`${baseUrl}api/users/single-year?count=${count}&year=${year}`)
+        ) : (
+            setUrl(`${baseUrl}api/users?count=${count}&since=${since}&until=${until}`)
+        )
+    }, [single, count, year, since, until, baseUrl])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setParams(prevState => ({
@@ -59,9 +37,7 @@ export default function Home() {
         }))
     }
     
-    const handleSingle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSingle(e.target.checked);
-    }
+    const handleSingle = (e: React.ChangeEvent<HTMLInputElement>) => setSingle(e.target.checked);
 
     return (
         <div className="px-5 h-full flex flex-col items-center justify-around overflow-y-hidden
