@@ -7,6 +7,7 @@ type dataObject = {
     lastName: string,
     pesel: string,
     birthday: string,
+    gender: string,
 }
 
 export default function useFetch(url : string) {

@@ -6,7 +6,7 @@ type paramsObject = {
     count: number,
     year: number,
     since: number,
-    until: number
+    until: number,
 }
 
 export default function Home() {
@@ -117,7 +117,7 @@ export default function Home() {
                 </button>
             </form>
 
-            <div className="grid grid-cols-1 w-full h-full px-10 
+            <div className="grid grid-cols-1 w-full h-full px-10
                 2xl:grid-cols-4
                 xl:grid-cols-3 xl:w-5/6
                 lg:overflow-y-auto lg:scrolling-auto
