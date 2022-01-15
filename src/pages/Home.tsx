@@ -33,7 +33,7 @@ export default function Home() {
         ) : (
             setUrl(endPoints.differentYears)
         )
-    }, [single, count, year, since, until, baseUrl])
+    }, [endPoints.singleYear, endPoints.differentYears, baseUrl])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setParams(prevState => ({
